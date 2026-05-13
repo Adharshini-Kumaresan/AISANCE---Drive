@@ -17,8 +17,12 @@ export function useAuthGuard() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
-        // Access Control Rule: Only allow transport@psnacet.edu.in
-        if (firebaseUser.email === 'transport@psnacet.edu.in') {
+        // Access Control Rule: Allowed emails with dashboard access
+        const ALLOWED_EMAILS = [
+          'transport@psnacet.edu.in',
+          'kcadharshini@gmail.com',
+        ];
+        if (firebaseUser.email && ALLOWED_EMAILS.includes(firebaseUser.email)) {
           setUser(firebaseUser);
         } else {
           router.replace('/waitlist');
